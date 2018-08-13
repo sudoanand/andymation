@@ -4,26 +4,57 @@ then
 	exit
 fi
 
+andyLocation="$HOME/.andy"
+toolsDir="$andyLocation/tools"
 
-updatetools(){
-	git clone https://github.com/hack4mer/andymation.git ~/.andy/ 2>/dev/null
-}
+#checks if directory exists
+direxists(){
 
-toolexists(){
-	if [ -d "$HOME/.andy/tools/$1" ] 	
+	if [ -d "$1" ] 	
 	then
-		return 1
+		return 0
 	fi
 
-	return 0
+	return 1
 }
 
-if [ $(toolexists $1) -eq 0 ]; 
-then 
+#checks if a command/tool exists localy
+toolexists(){
+	if  direxists "$toolsDir/$1" 
+	then
+		return 0
+	fi
+
+	return 1
+}
+
+
+#updates commands/tools from git [master]
+updatetools(){
+
+	if direxists "$andyLocation" 
+	then
+		echo "Overriding $HOME/.andy..."
+		sudo rm -fr "$andyLocation"
+	fi
+
+	git clone https://github.com/hack4mer/andymation.git ~/.andy/
+}
+
+
+andy_exec(){
+
+	toolMetaFile="$toolsDir/$1/tool.json"
+	python "$andyLocation/readJson.py" name
+
+}
+
+
+if toolexists $1  
+then
+	andy_exec $1
+else 
 	echo "Tool $1 not available, fetching it..."
 	echo "Updating tools directory..."
 	updatetools
-else
-	echo "tool found"
 fi
-

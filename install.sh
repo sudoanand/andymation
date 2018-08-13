@@ -14,8 +14,8 @@ echo "Downloading source..."
 
 if $(curl "$script_url" -o andy)
 then
-	sudo chmod +x andy
-	sudo mv andy /usr/bin
+	chmod +x andy
+	mv andy /usr/local/bin
 	echo 'Installation complete, run the command "andy" for details'
 else
 	echo "Download failed, check connectivity to the url : $script_url"
