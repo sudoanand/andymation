@@ -5,6 +5,7 @@ then
 	exit
 fi
 
+declare osName=""
 devMod=true
 andyLocation="$HOME/.andy"
 toolsDir="$andyLocation/tools"
@@ -53,9 +54,15 @@ updatetools(){
 
 
 #Get Operation system
-getOS(){
+findOS(){
 
-	echo `uname`
+	osName=$(uname)
+
+	case $osName in
+		Darwin) osName="osx";;
+		Linux)  osName="linux";;
+		*)		osName="other";;
+	esac
 }
 
 
@@ -64,8 +71,8 @@ andy_exec(){
 
 	toolMetaFile="$toolsDir/$1/tool.json"
 	#python "$andyLocation/readJson.py" "$toolsDir/$1/tool.json" supported_os ubuntu
-	getOS
-
+	findOS
+	echo $osName
 
 }
 
