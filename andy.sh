@@ -5,7 +5,7 @@ then
 	exit
 fi
 
-devMod=true
+devMod=false
 
 osCode=""
 osVersion=""
