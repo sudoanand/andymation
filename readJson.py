@@ -4,9 +4,14 @@ with open(sys.argv[1]) as f:
     data = json.load(f)
 
 
-
+error = False
 
 for x in range(2,len(sys.argv)):
-	data = data[sys.argv[x]]
+	if sys.argv[x] in data:
+		data = data[sys.argv[x]]
+	else:
+		error = True
 
-print data
+
+if not error:
+	print data

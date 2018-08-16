@@ -5,7 +5,7 @@ then
 	exit
 fi
 
-osName=""
+osCode=""
 osVersion=""
 devMod=true
 andyLocation="$HOME/.andy"
@@ -58,20 +58,44 @@ updatetools(){
 getLinuxDistro(){
 	. /etc/os-release
 	
-	osName=$ID
+	osCode=$ID
 	osVersion=$VERSION_ID
 }
 
 #Get Operation system
 findOS(){
 
-	osName=$(uname)
+	osCode=$(uname)
 
-	case $osName in
-		Darwin) osName="osx"; osVersion=$(sw_vers -productVersion);;
+	case $osCode in
+		Darwin) osCode="osx"; osVersion=$(sw_vers -productVersion);;
 		Linux)  getLinuxDistro;;
-		*)		osName="other";;
+		*)		osCode="other";;
 	esac
+}
+
+
+isGreater() {
+   awk -v n1="$1" -v n2="$2" 'BEGIN {printf " " (n1<n2?"0":"1") " ", n1, n2}'
+}
+
+#Check os support
+verifyOS(){
+
+
+	min_os_version=$(python "$andyLocation/readJson.py" "$toolsDir/$1/tool.json" supported_os $osCode min_version)
+
+
+	if [[ ${#min_os_version} -eq "0" ]]; then
+		#OS meta is not present in tool.json
+		return 1
+	fi
+
+	if [[ "1" -eq "$(isGreater  $osVersion $min_os_version)" ]]; then
+		return 0
+	fi
+
+	return 1
 }
 
 
@@ -79,16 +103,28 @@ findOS(){
 andy_exec(){
 
 	toolMetaFile="$toolsDir/$1/tool.json"
-	#python "$andyLocation/readJson.py" "$toolsDir/$1/tool.json" supported_os ubuntu
-	findOS
-	echo $osName
-	echo $osVersion
 
+	#Assign values to the osCode and osVersion variables
+	findOS
+
+	#Check for minimum version support
+	if verifyOS $toolName ; then
+		#OS is supported, can proceed with the execution
+
+		echo "Fine"
+
+	else
+		echo "$toolName does not support $(uname)! Exiting."
+		exit 1
+	fi
+	
 }
 
 
 if toolexists $1  
 then
+	toolName=$1
+	echo "Executing $toolName..."
 	andy_exec $1
 else 
 	echo "Tool $1 not available, fetching it..."
