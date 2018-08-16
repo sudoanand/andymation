@@ -10,9 +10,9 @@ bash (curl https://raw.githubusercontent.com/hack4mer/andymation/master/install.
 
 
 ### To do 
-- [ ] Add a few tools 
+- [ ] Add tested_on check for tools
 - [ ] Automate installation of dependecies (curl and git)
+- [ ] Improve updatetools working
 - [ ] Add contribution docs
-
 
 This project is under development yet.

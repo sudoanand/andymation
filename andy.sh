@@ -5,9 +5,10 @@ then
 	exit
 fi
 
+devMod=true
+
 osCode=""
 osVersion=""
-devMod=true
 andyLocation="$HOME/.andy"
 toolsDir="$andyLocation/tools"
 
@@ -111,8 +112,9 @@ andy_exec(){
 	if verifyOS $toolName ; then
 		#OS is supported, can proceed with the execution
 
-		echo "Fine"
-
+		echo "Executing $toolName"
+		echo "-----------------------"
+		sh "$toolsDir/$1/tool.sh"
 	else
 		echo "$toolName does not support $(uname)! Exiting."
 		exit 1
@@ -124,7 +126,6 @@ andy_exec(){
 if toolexists $1  
 then
 	toolName=$1
-	echo "Executing $toolName..."
 	andy_exec $1
 else 
 	echo "Tool $1 not available, fetching it..."
