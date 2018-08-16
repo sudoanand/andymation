@@ -5,7 +5,7 @@ Andymation is  a collection of automation scripts that save time and make hectic
 
 Run the following command 
 ```
-bash (curl https://raw.githubusercontent.com/hack4mer/andymation/master/install.sh)
+curl https://raw.githubusercontent.com/hack4mer/andymation/master/install.sh | sudo bash
 ```
 
 
