@@ -1,9 +1,11 @@
+#!/bin/bash
 if [ $# -eq 0 ]
 then
 	echo "Andymation is available on this system! For help with commands and usage, see : https://hack4m.com/andymation"
 	exit
 fi
 
+devMod=true
 andyLocation="$HOME/.andy"
 toolsDir="$andyLocation/tools"
 
@@ -18,7 +20,7 @@ direxists(){
 	return 1
 }
 
-#checks if a command/tool exists localy
+#Checks if a command/tool exists localy
 toolexists(){
 	if  direxists "$toolsDir/$1" 
 	then
@@ -29,7 +31,7 @@ toolexists(){
 }
 
 
-#updates commands/tools from git [master]
+#Updates commands/tools from git [master]
 updatetools(){
 
 	if direxists "$andyLocation" 
@@ -38,14 +40,32 @@ updatetools(){
 		sudo rm -fr "$andyLocation"
 	fi
 
-	git clone https://github.com/hack4mer/andymation.git ~/.andy/
+
+	if $devMod
+	then
+		echo "Cloning from development branch..."
+		git clone -b development https://github.com/hack4mer/andymation.git ~/.andy/
+	else
+		echo "Cloning from production branch..."
+		git clone https://github.com/hack4mer/andymation.git ~/.andy/
+	fi	
 }
 
 
+#Get Operation system
+getOS(){
+
+	echo `uname`
+}
+
+
+#Execute andymation
 andy_exec(){
 
 	toolMetaFile="$toolsDir/$1/tool.json"
-	python "$andyLocation/readJson.py" name
+	#python "$andyLocation/readJson.py" "$toolsDir/$1/tool.json" supported_os ubuntu
+	getOS
+
 
 }
 
