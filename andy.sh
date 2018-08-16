@@ -55,8 +55,8 @@ updatetools(){
 
 #Get os and version
 getLinuxDistro(){
-	
-	osName=$(cat /etc/*release 2>/dev/null | head -n1)
+	. /etc/os-release
+	osName=$ID
 }
 
 #Get Operation system
