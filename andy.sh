@@ -6,6 +6,7 @@ then
 fi
 
 osName=""
+osVersion=""
 devMod=true
 andyLocation="$HOME/.andy"
 toolsDir="$andyLocation/tools"
@@ -56,7 +57,9 @@ updatetools(){
 #Get os and version
 getLinuxDistro(){
 	. /etc/os-release
+	
 	osName=$ID
+	osVersion=$VERSION_ID
 }
 
 #Get Operation system
@@ -65,7 +68,7 @@ findOS(){
 	osName=$(uname)
 
 	case $osName in
-		Darwin) osName="osx";;
+		Darwin) osName="osx"; osVersion=$(sw_vers -productVersion);;
 		Linux)  getLinuxDistro;;
 		*)		osName="other";;
 	esac
@@ -79,6 +82,7 @@ andy_exec(){
 	#python "$andyLocation/readJson.py" "$toolsDir/$1/tool.json" supported_os ubuntu
 	findOS
 	echo $osName
+	echo $osVersion
 
 }
 
