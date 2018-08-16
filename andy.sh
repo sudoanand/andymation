@@ -5,7 +5,7 @@ then
 	exit
 fi
 
-declare osName=""
+osName=""
 devMod=true
 andyLocation="$HOME/.andy"
 toolsDir="$andyLocation/tools"
