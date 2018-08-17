@@ -47,10 +47,10 @@ updatetools(){
 	if $devMod
 	then
 		echo "Cloning from development branch..."
-		git clone -b development https://github.com/hack4mer/andymation.git ~/.andy/
+		git clone -b development --recursive  https://github.com/hack4mer/andymation.git ~/.andy/
 	else
 		echo "Cloning from production branch..."
-		git clone https://github.com/hack4mer/andymation.git ~/.andy/
+		git clone  --recursive https://github.com/hack4mer/andymation.git ~/.andy/
 	fi	
 }
 

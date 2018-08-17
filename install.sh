@@ -12,7 +12,7 @@ echo "Downloading source..."
 
 
 
-if $(curl "$script_url" -o andy)
+if $(curl "$script_url" -o andy 2>/dev/null)
 then
 	chmod +x andy
 	mv andy /usr/local/bin
