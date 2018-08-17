@@ -7,6 +7,7 @@ fi
 
 devMod=false
 
+toolName=$1
 osCode=""
 osVersion=""
 andyLocation="$HOME/.andy"
@@ -125,10 +126,10 @@ andy_exec(){
 
 if toolexists $1  
 then
-	toolName=$1
 	andy_exec $1
 else 
 	echo "Tool $1 not available, fetching it..."
 	echo "Updating tools directory..."
 	updatetools
+	andy_exec $1
 fi
